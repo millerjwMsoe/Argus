@@ -10,6 +10,9 @@
 
 using namespace std;
 using namespace exploringRPi;
+using GPIO::VALUE;
+using GPIO::HIGH;
+using GPIO::LOW;
 
 int Steps = 0;
 bool Direction = true;
@@ -19,84 +22,79 @@ GPIO* IN2;
 GPIO* IN3;
 GPIO* IN4;
 
-void stepper(int xw) {
-  switch (Steps) {
-    case 0:
-      IN1->setValue(GPIO::LOW);
-      IN2->setValue(GPIO::LOW);
-      IN3->setValue(GPIO::LOW);
-      IN4->setValue(GPIO::HIGH);
-      break;
-    case 1:
-      IN1->setValue(GPIO::LOW);
-      IN2->setValue(GPIO::LOW);
-      IN3->setValue(GPIO::HIGH);
-      IN4->setValue(GPIO::HIGH);
-      break;
-    case 2:
-      IN1->setValue(GPIO::LOW);
-      IN2->setValue(GPIO::LOW);
-      IN3->setValue(GPIO::HIGH);
-      IN4->setValue(GPIO::LOW);
-      break;
-    case 3:
-      IN1->setValue(GPIO::LOW);
-      IN2->setValue(GPIO::HIGH);
-      IN3->setValue(GPIO::HIGH);
-      IN4->setValue(GPIO::LOW);
-      break;
-    case 4:
-      IN1->setValue(GPIO::LOW);
-      IN2->setValue(GPIO::HIGH);
-      IN3->setValue(GPIO::LOW);
-      IN4->setValue(GPIO::LOW);
-      break;
-    case 5:
-      IN1->setValue(GPIO::HIGH);
-      IN2->setValue(GPIO::HIGH);
-      IN3->setValue(GPIO::LOW);
-      IN4->setValue(GPIO::LOW);
-      break;
-    case 6:
-      IN1->setValue(GPIO::HIGH);
-      IN2->setValue(GPIO::LOW);
-      IN3->setValue(GPIO::LOW);
-      IN4->setValue(GPIO::LOW);
-      break;
-    case 7:
-      IN1->setValue(GPIO::HIGH);
-      IN2->setValue(GPIO::LOW);
-      IN3->setValue(GPIO::LOW);
-      IN4->setValue(GPIO::HIGH);
-      break;
-    default:
-      IN1->setValue(GPIO::LOW);
-      IN2->setValue(GPIO::LOW);
-      IN3->setValue(GPIO::LOW);
-      IN4->setValue(GPIO::LOW);
-      break;
-    }
-  if(Direction == 1) {
-    Steps = (Steps + 1) % 8;
-  } else {
-    Steps = (Steps - 1) % 8;
+void incremementSteps() {
+  if (Direction == 1) {
+    Steps++;
+  }
+  if (Direction == 0) {
+    Steps--;
+  }
+  if (Steps > 7) {
+    Steps = 0;
+  }
+  if (Steps < 0) {
+    Steps = 7;
   }
 }
 
-int main(int argc, char* argv[]) {
-  IN1 = new GPIO(6);
-  IN1->setDirection(GPIO::OUTPUT);
-  IN2 = new GPIO(16);
-  IN2->setDirection(GPIO::OUTPUT);
-  IN3 = new GPIO(20);
-  IN3->setDirection(GPIO::OUTPUT);
-  IN4 = new GPIO(21);
-  IN4->setDirection(GPIO::OUTPUT);
-while(true) {
-  for(int i=0; i<4096; i++){
-    stepper(1);
-    usleep(800); // 800ms delay
-  }
-  Direction = !Direction;
+void writePins(VALUE pin1, VALUE pin2, VALUE pin3, VALUE pin4) {
+  IN1->setValue(pin1);
+  IN2->setValue(pin2);
+  IN3->setValue(pin3);
+  IN4->setValue(pin4);
 }
+
+void step() {
+  switch (Steps) {
+  case 0:
+    writePins(LOW, LOW, LOW, HIGH);
+    break;
+  case 1:
+    writePins(LOW, LOW, HIGH, HIGH);
+    break;
+  case 2:
+    writePins(LOW, LOW, HIGH, LOW);
+    break;
+  case 3:
+    writePins(LOW, HIGH, HIGH, LOW);
+    break;
+  case 4:
+    writePins(LOW, HIGH, LOW, LOW);
+    break;
+  case 5:
+    writePins(HIGH, HIGH, LOW, LOW);
+    break;
+  case 6:
+    writePins(HIGH, LOW, LOW, LOW);
+    break;
+  case 7:
+    writePins(HIGH, LOW, LOW, HIGH);
+    break;
+  default:
+    writePins(LOW, LOW, LOW, LOW);
+    break;
+  }
+  incremementSteps();
+}
+
+void ctor(int pin1, int pin2, int pin3, int pin4) {
+  IN1 = new GPIO(pin1);
+  IN1->setDirection(OUTPUT);
+  IN2 = new GPIO(pin2);
+  IN2->setDirection(OUTPUT);
+  IN3 = new GPIO(pin3);
+  IN3->setDirection(OUTPUT);
+  IN4 = new GPIO(pin4);
+  IN4->setDirection(OUTPUT);
+}
+
+int main(int argc, char* argv[]) {
+  ctor(6,16,20,21);
+  while(true) {
+    for(int i=0; i<4096; i++){
+      step();
+      usleep(800); // 800ms delay
+    }
+    Direction = !Direction;
+  }
 }
