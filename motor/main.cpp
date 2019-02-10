@@ -76,7 +76,11 @@ void stepper(int xw) {
       IN4->setValue(GPIO::LOW);
       break;
     }
-  Steps = (Steps + 1) % 8;
+  if(Direction == 1) {
+    Steps = (Steps + 1) % 8;
+  } else {
+    Steps = (Steps - 1) % 8;
+  }
 }
 
 int main(int argc, char* argv[]) {
