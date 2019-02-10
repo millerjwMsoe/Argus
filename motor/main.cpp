@@ -10,9 +10,6 @@
 
 using namespace std;
 using namespace exploringRPi;
-using GPIO::VALUE;
-using GPIO::HIGH;
-using GPIO::LOW;
 
 int Steps = 0;
 bool Direction = true;
@@ -37,7 +34,7 @@ void incremementSteps() {
   }
 }
 
-void writePins(VALUE pin1, VALUE pin2, VALUE pin3, VALUE pin4) {
+void writePins(GPIO::VALUE pin1, GPIO::VALUE pin2, GPIO::VALUE pin3, GPIO::VALUE pin4) {
   IN1->setValue(pin1);
   IN2->setValue(pin2);
   IN3->setValue(pin3);
@@ -47,31 +44,31 @@ void writePins(VALUE pin1, VALUE pin2, VALUE pin3, VALUE pin4) {
 void step() {
   switch (Steps) {
   case 0:
-    writePins(LOW, LOW, LOW, HIGH);
+    writePins(GPIO::LOW, GPIO::LOW, GPIO::LOW, GPIO::HIGH);
     break;
   case 1:
-    writePins(LOW, LOW, HIGH, HIGH);
+    writePins(GPIO::LOW, GPIO::LOW, GPIO::HIGH, GPIO::HIGH);
     break;
   case 2:
-    writePins(LOW, LOW, HIGH, LOW);
+    writePins(GPIO::LOW, GPIO::LOW, GPIO::HIGH, GPIO::LOW);
     break;
   case 3:
-    writePins(LOW, HIGH, HIGH, LOW);
+    writePins(GPIO::LOW, GPIO::HIGH, GPIO::HIGH, GPIO::LOW);
     break;
   case 4:
-    writePins(LOW, HIGH, LOW, LOW);
+    writePins(GPIO::LOW, GPIO::HIGH, GPIO::LOW, GPIO::LOW);
     break;
   case 5:
-    writePins(HIGH, HIGH, LOW, LOW);
+    writePins(GPIO::HIGH, GPIO::HIGH, GPIO::LOW, GPIO::LOW);
     break;
   case 6:
-    writePins(HIGH, LOW, LOW, LOW);
+    writePins(GPIO::HIGH, GPIO::LOW, GPIO::LOW, GPIO::LOW);
     break;
   case 7:
-    writePins(HIGH, LOW, LOW, HIGH);
+    writePins(GPIO::HIGH, GPIO::LOW, GPIO::LOW, GPIO::HIGH);
     break;
   default:
-    writePins(LOW, LOW, LOW, LOW);
+    writePins(GPIO::LOW, GPIO::LOW, GPIO::LOW, GPIO::LOW);
     break;
   }
   incremementSteps();
