@@ -1,4 +1,9 @@
+/*
+ * File: TODO.cpp
+ * Description: contains driver code for the Elegoo 28BYJ-48 motor
+ */
 
+#include <iostream>
 #include <unistd.h>
 #include "GPIO.h"
 
@@ -14,26 +19,8 @@ GPIO* IN2;
 GPIO* IN3;
 GPIO* IN4;
 
-
-void mySetDirection() {
-  if (Direction == 1) {
-    Steps++;
-  }
-  if (Direction == 0) {
-    Steps--;
-  }
-  if (Steps > 7) {
-    Steps = 0;
-  }
-  if (Steps < 0) {
-    Steps = 7;
-  }
-}
-
-
 void stepper(int xw) {
-  for (int x = 0; x < xw; x++) {
-    switch (Steps) {
+  switch (Steps) {
     case 0:
       IN1->setValue(GPIO::LOW);
       IN2->setValue(GPIO::LOW);
@@ -89,17 +76,10 @@ void stepper(int xw) {
       IN4->setValue(GPIO::LOW);
       break;
     }
-  mySetDirection();
-  }
+  Steps = (Steps + 1) % 8;
 }
 
-
-
-
 int main(int argc, char* argv[]) {
-
-  //Serial.begin(9600);
-
   IN1 = new GPIO(6);
   IN1->setDirection(GPIO::OUTPUT);
   IN2 = new GPIO(16);
