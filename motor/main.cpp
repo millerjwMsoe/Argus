@@ -76,13 +76,13 @@ void step() {
 
 void ctor(int pin1, int pin2, int pin3, int pin4) {
   IN1 = new GPIO(pin1);
-  IN1->setDirection(OUTPUT);
+  IN1->setDirection(GPIO::OUTPUT);
   IN2 = new GPIO(pin2);
-  IN2->setDirection(OUTPUT);
+  IN2->setDirection(GPIO::OUTPUT);
   IN3 = new GPIO(pin3);
-  IN3->setDirection(OUTPUT);
+  IN3->setDirection(GPIO::OUTPUT);
   IN4 = new GPIO(pin4);
-  IN4->setDirection(OUTPUT);
+  IN4->setDirection(GPIO::OUTPUT);
 }
 
 int main(int argc, char* argv[]) {
