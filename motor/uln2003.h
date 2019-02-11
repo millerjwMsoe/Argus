@@ -8,6 +8,7 @@
 #define ULN2003_H_
 
 #include "GPIO.h"
+#include "stepper.h"
 
 class ULN2003: public Stepper {
 public:
@@ -25,19 +26,19 @@ public:
   ~ULN2003();
 
 private:
-  GPIO* IN1;
-  GPIO* IN2;
-  GPIO* IN3;
-  GPIO* IN4;
+  exploringRPi::GPIO* IN1;
+  exploringRPi::GPIO* IN2;
+  exploringRPi::GPIO* IN3;
+  exploringRPi::GPIO* IN4;
 
   Stepper::DIRECTION direction;
 
   int step;
   int stepCount;
 
-  void step();
+  void nextStep();
   void incrementStep();
-  void writePins(GPIO::VALUE pin1, GPIO::VALUE pin2, GPIO::VALUE pin3, GPIO::VALUE pin4);
+  void writePins(exploringRPi::GPIO::VALUE pin1, exploringRPi::GPIO::VALUE pin2, exploringRPi::GPIO::VALUE pin3, exploringRPi::GPIO::VALUE pin4);
 };
 
 #endif /* ULN2003_H_ */

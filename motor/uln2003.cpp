@@ -5,17 +5,19 @@
  */
 
 #include <unistd.h>
-#include "stepper.h"
+#include "uln2003.h"
 
-ULN2003(int pin1, int pin2, int pin3, int pin4) {
+using namespace exploringRPi;
+
+ULN2003::ULN2003(int pin1, int pin2, int pin3, int pin4) {
   IN1 = new GPIO(pin1);
-  IN1->setDirection(OUTPUT);
+  IN1->setDirection(GPIO::OUTPUT);
   IN2 = new GPIO(pin2);
-  IN2->setDirection(OUTPUT);
+  IN2->setDirection(GPIO::OUTPUT);
   IN3 = new GPIO(pin3);
-  IN3->setDirection(OUTPUT);
+  IN3->setDirection(GPIO::OUTPUT);
   IN4 = new GPIO(pin4);
-  IN4->setDirection(OUTPUT);
+  IN4->setDirection(GPIO::OUTPUT);
 
   direction = Stepper::CW;
 
@@ -27,7 +29,7 @@ void ULN2003::startRotation(Stepper::DIRECTION direction) {
   // TODO - implement this as a multithreaded function
   this->direction = direction;
   while(true) {
-    step();
+    nextStep();
     usleep(800); // 800 us delay
   }
 }
@@ -45,7 +47,7 @@ double ULN2003::getAngle() {
   return 0;
 }
 
-void ULN2003::step() {
+void ULN2003::nextStep() {
   switch (step) {
   case 0:
     writePins(GPIO::LOW, GPIO::LOW, GPIO::LOW, GPIO::HIGH);
@@ -75,11 +77,12 @@ void ULN2003::step() {
     writePins(GPIO::LOW, GPIO::LOW, GPIO::LOW, GPIO::LOW);
     break;
   }
-  incremementStep();
+  incrementStep();
 }
 
 // TODO - refactor this function
-void ULN2003::incremementStep() {
+void ULN2003::incrementStep() {
+  // TODO: the directions are currently backwards
   if (direction == Stepper::CW) {
     step++;
     stepCount++;
@@ -96,7 +99,7 @@ void ULN2003::incremementStep() {
   }
 }
 
-void writePins(GPIO::VALUE pin1, GPIO::VALUE pin2, GPIO::VALUE pin3, GPIO::VALUE pin4) {
+void ULN2003::writePins(GPIO::VALUE pin1, GPIO::VALUE pin2, GPIO::VALUE pin3, GPIO::VALUE pin4) {
   IN1->setValue(pin1);
   IN2->setValue(pin2);
   IN3->setValue(pin3);
