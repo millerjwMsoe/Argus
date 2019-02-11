@@ -6,6 +6,7 @@
 #include <iostream>
 #include <unistd.h>
 #include "GPIO.h"
+#include "uln2003.h"
 
 
 using namespace std;
@@ -85,7 +86,7 @@ void ctor(int pin1, int pin2, int pin3, int pin4) {
   IN4->setDirection(OUTPUT);
 }
 
-int main(int argc, char* argv[]) {
+int main2(int argc, char* argv[]) {
   ctor(6,16,20,21);
   while(true) {
     for(int i=0; i<4096; i++){
@@ -94,4 +95,9 @@ int main(int argc, char* argv[]) {
     }
     Direction = !Direction;
   }
+}
+
+int main(int argc, char* argv[]) {
+  Stepper* stepper = new ULN2003(6,16,20,21);
+  stepper->startRotation();
 }
