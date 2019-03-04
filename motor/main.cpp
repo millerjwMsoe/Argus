@@ -14,5 +14,5 @@ using namespace exploringRPi;
 
 int main(int argc, char* argv[]) {
   Stepper* stepper = new ULN2003(6,16,20,21);
-  stepper->startRotation(Stepper::CW);
+  stepper->rotate(Stepper::CW, 360);
 }
