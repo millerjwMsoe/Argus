@@ -40,38 +40,43 @@ void ULN2003::stopRotation() {
 
 void ULN2003::rotate(Stepper::DIRECTION direction, double degrees) {
   // TODO
+  int stepsFromDegrees = degrees / 360.0 * STEPS_PER_REVOLUTION;
+  this->direction = direction;
+  for(int i=0; i<stepsFromDegrees; i++) {
+    nextStep();
+    usleep(800);
+  }
 }
 
 double ULN2003::getAngle() {
-  // TODO
-  return 0;
+  return (double) stepCount / STEPS_PER_REVOLUTION;
 }
 
 void ULN2003::nextStep() {
   switch (step) {
   case 0:
-    writePins(GPIO::LOW, GPIO::LOW, GPIO::LOW, GPIO::HIGH);
+    writePins(GPIO::HIGH, GPIO::LOW, GPIO::LOW, GPIO::HIGH);
     break;
   case 1:
-    writePins(GPIO::LOW, GPIO::LOW, GPIO::HIGH, GPIO::HIGH);
-    break;
-  case 2:
-    writePins(GPIO::LOW, GPIO::LOW, GPIO::HIGH, GPIO::LOW);
-    break;
-  case 3:
-    writePins(GPIO::LOW, GPIO::HIGH, GPIO::HIGH, GPIO::LOW);
-    break;
-  case 4:
-    writePins(GPIO::LOW, GPIO::HIGH, GPIO::LOW, GPIO::LOW);
-    break;
-  case 5:
-    writePins(GPIO::HIGH, GPIO::HIGH, GPIO::LOW, GPIO::LOW);
-    break;
-  case 6:
     writePins(GPIO::HIGH, GPIO::LOW, GPIO::LOW, GPIO::LOW);
     break;
+  case 2:
+    writePins(GPIO::HIGH, GPIO::HIGH, GPIO::LOW, GPIO::LOW);
+    break;
+  case 3:
+    writePins(GPIO::LOW, GPIO::HIGH, GPIO::LOW, GPIO::LOW);
+    break;
+  case 4:
+    writePins(GPIO::LOW, GPIO::HIGH, GPIO::HIGH, GPIO::LOW);
+    break;
+  case 5:
+    writePins(GPIO::LOW, GPIO::LOW, GPIO::HIGH, GPIO::LOW);
+    break;
+  case 6:
+    writePins(GPIO::LOW, GPIO::LOW, GPIO::HIGH, GPIO::HIGH);
+    break;
   case 7:
-    writePins(GPIO::HIGH, GPIO::LOW, GPIO::LOW, GPIO::HIGH);
+    writePins(GPIO::LOW, GPIO::LOW, GPIO::LOW, GPIO::HIGH);
     break;
   default:
     writePins(GPIO::LOW, GPIO::LOW, GPIO::LOW, GPIO::LOW);

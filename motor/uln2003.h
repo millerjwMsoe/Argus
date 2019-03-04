@@ -35,6 +35,7 @@ private:
 
   int step;
   int stepCount;
+  const int STEPS_PER_REVOLUTION = 4096;
 
   void nextStep();
   void incrementStep();
