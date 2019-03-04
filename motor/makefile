@@ -1,5 +1,7 @@
 # motor code makefile
 
+all: motor
+
 # dependencies generated with g++ -MM *.cpp
 GPIO.o: GPIO.cpp GPIO.h util.h
 main.o: main.cpp GPIO.h uln2003.h stepper.h
@@ -12,11 +14,9 @@ CC = g++
 COPTIONS = -g --save-temps -O0 -pthread
 LOPTIONS = -g -pthread
 OBJS = GPIO.o main.o stepper.o uln2003.o util.o
-NAME = motor.exe
+NAME = motor.out
 
 # explicit rules
-all: motor
-
 motor: $(OBJS)
 	$(CC) $(LOPTIONS) -o $(NAME) $^
 
