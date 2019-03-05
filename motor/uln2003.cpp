@@ -7,9 +7,10 @@
 #include <unistd.h>
 #include "uln2003.h"
 
+using namespace std;
 using namespace exploringRPi;
 
-ULN2003::ULN2003(int pin1, int pin2, int pin3, int pin4) {
+ULN2003::ULN2003(int pin1, int pin2, int pin3, int pin4, string threadName) : PeriodicTask(threadName)  {
   IN1 = new GPIO(pin1);
   IN1->setDirection(GPIO::OUTPUT);
   IN2 = new GPIO(pin2);
@@ -23,28 +24,32 @@ ULN2003::ULN2003(int pin1, int pin2, int pin3, int pin4) {
 
   step = 0;
   stepCount = 0;
+  continuousRotation = false;
+  stepsRemaining = 0;
 }
 
 void ULN2003::startRotation(Stepper::DIRECTION direction) {
-  // TODO - implement this as a multithreaded function
   this->direction = direction;
-  while(true) {
-    nextStep();
-    usleep(800); // 800 us delay
-  }
+  continuousRotation = true;
 }
 
 void ULN2003::stopRotation() {
-  // TODO
+  continuousRotation = false;
+  stepsRemaining = 0;
 }
 
 void ULN2003::rotate(Stepper::DIRECTION direction, double degrees) {
-  // TODO
   int stepsFromDegrees = degrees / 360.0 * STEPS_PER_REVOLUTION;
   this->direction = direction;
-  for(int i=0; i<stepsFromDegrees; i++) {
+  stepsRemaining = stepsFromDegrees;
+}
+
+void ULN2003::run() {
+  if(continuousRotation || stepsRemaining > 0) {
     nextStep();
-    usleep(800);
+    if(stepsRemaining > 0) {
+      stepsRemaining--;
+    }
   }
 }
 

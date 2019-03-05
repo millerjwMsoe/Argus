@@ -13,6 +13,8 @@ using namespace std;
 using namespace exploringRPi;
 
 int main(int argc, char* argv[]) {
-  Stepper* stepper = new ULN2003(6,16,20,21);
+  Stepper* stepper = new ULN2003(6,16,20,21, "Stepper");
+  stepper->setTaskPeriod(1);
+  stepper->start();
   stepper->rotate(Stepper::CW, 360);
 }
