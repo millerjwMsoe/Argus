@@ -10,6 +10,7 @@
 using namespace std;
 using namespace exploringRPi;
 
+// TODO: remove threadName argument to insulate user from threading
 ULN2003::ULN2003(int pin1, int pin2, int pin3, int pin4, string threadName) : PeriodicTask(threadName)  {
   IN1 = new GPIO(pin1);
   IN1->setDirection(GPIO::OUTPUT);
