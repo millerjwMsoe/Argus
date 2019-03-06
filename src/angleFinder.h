@@ -12,14 +12,14 @@
 
 class AngleFinder : public PeriodicTask {
 public:
-    AngleFinder(Stepper stepper, IRReceiver receiver, std::string threadName);
+    AngleFinder(Stepper* stepper, IRReceiver* receiver, std::string threadName);
 
     // overrides PeriodicTask::run(). Runs periodically on its own thread.
     void run();
 
 private:
-    Stepper m_stepper;
-    IRReceiver m_receiver;
+    Stepper* m_stepper;
+    IRReceiver* m_receiver;
 };
 
 #endif /* ANGLE_FINDER_H_ */

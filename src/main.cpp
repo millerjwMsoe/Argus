@@ -8,7 +8,7 @@
 #include "GPIO.h"
 #include "uln2003.h"
 #include "tsop38238.h"
-
+#include "angleFinder.h"
 
 using namespace std;
 using namespace exploringRPi;

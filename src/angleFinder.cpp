@@ -8,7 +8,7 @@
 
 using namespace std;
 
-AngleFinder::AngleFinder(Stepper stepper, IRReceiver receiver, string threadName) : PeriodicTask (threadName) {
+AngleFinder::AngleFinder(Stepper* stepper, IRReceiver* receiver, string threadName) : PeriodicTask (threadName) {
     m_stepper = stepper;
     m_receiver = receiver;
 }
@@ -16,8 +16,9 @@ AngleFinder::AngleFinder(Stepper stepper, IRReceiver receiver, string threadName
 void AngleFinder::run() {
     if(m_receiver->lightDetected()) {
         cout << "Bin at: " << m_stepper->getAngle() << endl;
+        m_stepper->stopRotation();
     } else {
         cout << "Bin not found." << endl;
-        m_stepper->rotate(Stepper::CW);
+        m_stepper->startRotation(Stepper::CW);
     }
 }
