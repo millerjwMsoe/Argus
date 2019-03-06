@@ -26,9 +26,13 @@ ULN2003::ULN2003(int pin1, int pin2, int pin3, int pin4, string threadName) : Pe
   stepCount = 0;
   continuousRotation = false;
   stepsRemaining = 0;
+  threadStarted = false;
 }
 
 void ULN2003::startRotation(Stepper::DIRECTION direction) {
+  if(!threadStarted) {
+    startThread();
+  }
   this->direction = direction;
   continuousRotation = true;
 }
@@ -39,6 +43,9 @@ void ULN2003::stopRotation() {
 }
 
 void ULN2003::rotate(Stepper::DIRECTION direction, double degrees) {
+  if(!threadStarted) {
+    startThread();
+  }
   int stepsFromDegrees = degrees / 360.0 * STEPS_PER_REVOLUTION;
   this->direction = direction;
   stepsRemaining = stepsFromDegrees;
@@ -92,7 +99,6 @@ void ULN2003::nextStep() {
 
 // TODO - refactor this function
 void ULN2003::incrementStep() {
-  // TODO: the directions are currently backwards
   if (direction == Stepper::CW) {
     step++;
     stepCount++;
@@ -114,6 +120,12 @@ void ULN2003::writePins(GPIO::VALUE pin1, GPIO::VALUE pin2, GPIO::VALUE pin3, GP
   IN2->setValue(pin2);
   IN3->setValue(pin3);
   IN4->setValue(pin4);
+}
+
+void ULN2003::startThread() {
+  threadStarted = true;
+  this->setTaskPeriod(1);
+  this->start();
 }
 
 ULN2003::~ULN2003() {

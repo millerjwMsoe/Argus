@@ -45,9 +45,14 @@ private:
   bool continuousRotation;
   int stepsRemaining;
 
+  // keep track of whether thread was started.
+  // prefer to keep the fact that it's multithreaded invisible to user.
+  bool threadStarted;
+
   void nextStep();
   void incrementStep();
   void writePins(exploringRPi::GPIO::VALUE pin1, exploringRPi::GPIO::VALUE pin2, exploringRPi::GPIO::VALUE pin3, exploringRPi::GPIO::VALUE pin4);
+  void startThread();
 };
 
 #endif /* ULN2003_H_ */
