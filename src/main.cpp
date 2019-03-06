@@ -17,14 +17,8 @@ int main(int argc, char* argv[]) {
   Stepper* stepper = new ULN2003(6,16,20,21, "Stepper");
   IRReceiver* receiver = new TSOP38238(12);
 
-  stepper->rotate(Stepper::CW, 360);
-  cout << (receiver->lightDetected() ? "true" : "false") << endl;
-  sleep(5);
-  stepper->rotate(Stepper::CCW, 180);
-  cout << (receiver->lightDetected() ? "true" : "false") << endl;
-  sleep(3);
-  cout << stepper->getAngle() << endl;
-  cout << (receiver->lightDetected() ? "true" : "false") << endl;
-  stepper->rotate(Stepper::CW, 180);
-  sleep(3);
+  AngleFinder* angleFinder = new AngleFinder(stepper, receiver, "Angle Finder");
+  angleFinder->setTaskPeriod(10);
+  angleFinder->start();
+  angleFinder->waitForShutdown();
 }
