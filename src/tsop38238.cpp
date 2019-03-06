@@ -3,12 +3,12 @@
  * Description: Driver for the TSOP38238 IR receiver
  */
 
-#include "uln2003.h"
+#include "tsop38238.h"
 
 using namespace std;
 using namespace exploringRPi;
 
-ULN2003::ULN2003(int pin) {
+TSOP38238::TSOP38238(int pin) {
     m_pin = new GPIO(pin);
     m_pin->setDirection(GPIO::INPUT);
 }
@@ -20,13 +20,6 @@ bool TSOP38238::lightDetected() {
     } else {
         return true;
     }
-}
-
-
-void TSOP38238::startThread() {
-  threadStarted = true;
-  this->setTaskPeriod(1);
-  this->start();
 }
 
 TSOP38238::~TSOP38238() {

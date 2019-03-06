@@ -16,8 +16,6 @@ public:
 
   bool lightDetected();
 
-  void run(); // overrides PeriodicTask::run(); runs periodically on its own thread
-
   ~TSOP38238();
 
 private:

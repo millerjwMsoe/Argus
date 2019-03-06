@@ -10,7 +10,7 @@ class IRReceiver {
 public:
 
   // return true if IR light was detected
-  virtual boolean lightDetected() = 0;
+  virtual bool lightDetected() = 0;
 
   virtual ~IRReceiver();
 
