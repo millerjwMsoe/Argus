@@ -61,7 +61,7 @@ void ULN2003::run() {
 }
 
 double ULN2003::getAngle() {
-  return (double) stepCount / STEPS_PER_REVOLUTION;
+  return (double) stepCount / STEPS_PER_REVOLUTION * DEGREES_PER_REVOLUTION;
 }
 
 void ULN2003::nextStep() {

@@ -15,5 +15,10 @@ using namespace exploringRPi;
 int main(int argc, char* argv[]) {
   Stepper* stepper = new ULN2003(6,16,20,21, "Stepper");
   stepper->rotate(Stepper::CW, 360);
-  sleep(10);
+  sleep(5);
+  stepper->rotate(Stepper::CCW, 180);
+  sleep(3);
+  cout << stepper->getAngle() << endl;
+  stepper->rotate(Stepper::CW, 180);
+  sleep(3);
 }

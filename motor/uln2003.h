@@ -40,6 +40,7 @@ private:
   int step;
   int stepCount;
   const int STEPS_PER_REVOLUTION = 4096;
+  const int DEGREES_PER_REVOLUTION = 360;
 
   // variables to determine whether the controller should drive the next phase
   bool continuousRotation;
