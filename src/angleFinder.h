@@ -18,8 +18,16 @@ public:
     void run();
 
 private:
+    Stepper::DIRECTION opposite(Stepper::DIRECTION dir);
     Stepper* m_stepper;
     IRReceiver* m_receiver;
+    bool m_seeking;
+    double m_start; // the last angle at which light was detected
+    double m_target; // the limit of how far to look for light in one direction
+    Stepper::DIRECTION m_direction; // which direction to look for light in
+    const int m_searchAngle = 45; // how many degrees to sweep before turning around
+    double m_searchCount; // how many search sweeps since light was detected
+
 };
 
 #endif /* ANGLE_FINDER_H_ */
