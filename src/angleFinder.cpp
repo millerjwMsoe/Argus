@@ -43,10 +43,12 @@ void AngleFinder::run() {
                 m_stepper->startRotation(m_direction);
             }
         } else { // m_direction == Stepper::CCW
+            if(m_stepper->getAngle() < m_target) {
                 m_searchCount++;
                 m_direction = opposite(m_direction);
                 m_target = m_start + m_searchCount*m_searchAngle;
                 m_stepper->startRotation(m_direction);
+            }
         }
     }
 }
