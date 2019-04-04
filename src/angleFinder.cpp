@@ -11,7 +11,7 @@ using namespace std;
 AngleFinder::AngleFinder(Stepper* stepper, IRReceiver* receiver, string threadName) : PeriodicTask (threadName) {
     m_stepper = stepper;
     m_receiver = receiver;
-    m_seeking = true;
+    m_seeking = false;
     m_searchCount = 1;
     m_start = 0;
     m_target = m_start + m_searchCount*m_searchAngle;
