@@ -5,6 +5,7 @@ all: motor
 # dependencies generated with g++ -MM *.cpp
 angleFinder.o: angleFinder.cpp angleFinder.h PeriodicTask.h \
  RunnableClass.h irreceiver.h stepper.h
+coms.o: coms.cpp coms.h PeriodicTask.h RunnableClass.h rs232.h
 GPIO.o: GPIO.cpp GPIO.h util.h
 irreceiver.o: irreceiver.cpp irreceiver.h
 main.o: main.cpp GPIO.h uln2003.h PeriodicTask.h RunnableClass.h \
@@ -21,15 +22,19 @@ util.o: util.cpp util.h
 CC = g++
 COPTIONS = -g --save-temps -O0 -pthread
 LOPTIONS = -g -pthread
-OBJS = angleFinder.o GPIO.o irreceiver.o main.o PeriodicTask.o RunnableClass.o stepper.o tsop38238.o uln2003.o util.o
+OBJS = angleFinder.o coms.o GPIO.o irreceiver.o main.o PeriodicTask.o \
+ RunnableClass.o rs232.o stepper.o tsop38238.o uln2003.o util.o
 NAME = motor.out
 
 # explicit rules
 motor: $(OBJS)
 	$(CC) $(LOPTIONS) -o $(NAME) $^
 
+coms.o : coms.cpp
+	$(CC) $(COPTIONS) -c coms.cpp rs232.c RunnableClass.cpp PeriodicTask.cpp
+
 # implicit rules
-%.o : %.c
+%.o : %.cpp
 	$(CC) $(COPTIONS) -c $<
 
 # clean

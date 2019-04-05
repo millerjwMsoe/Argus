@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <iostream>
 #include "coms.h"
-#include "serial/rs232.h"
+#include "rs232.h"
 
 #define BUF_SIZE 1024
 
