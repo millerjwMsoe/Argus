@@ -8,6 +8,14 @@
  * Right Front (RF) = sensor 2 = pin 19
  * Right Rear (RR) = sensor 3 = pin 20
  * Left Rear (LR) = sensor 4 = pin 21
+ * 
+ * Proximity sensor is connected to I2C lines and measures in mm
+ * 
+ * Weight sensor and Volume detection are done via other arduino
+ * and are transmitted by bluetooth
+ * 
+ * Libraries to include:  VL53L1X by sparkfun V 
+ *                        ArduinoJson V6.10
  */
 
 #include <ComponentObject.h>
@@ -32,6 +40,8 @@ const byte ipin4 = 21;
 
 int ipin1Count = 0, ipin2Count = 0, ipin3Count = 0, ipin4Count = 0;
 int rpm1, rpm2, rpm3, rpm4;
+double volume; // units are in something...
+double mass; // units again are something...
 const double sampleIntervalms = 1000;
 const double msToMin = 60000;
 const double numMagnets = 1; // change this one to allow for more  poles to be placed on wheel
@@ -93,22 +103,11 @@ void loop() {
   doc["RF RPM"] = rpm2;
   doc["RR RPM"] = rpm3;
   doc["LR RPM"] = rpm4;
+  doc["VOLUME"] = volume;
+  doc["MASS"] = mass;
 
   serializeJson(doc, Serial);
-  Serial.println();
-  //Serial.write(output);
-  /*
-  Serial.print("RPM 1: ");
-  Serial.println(rpm1);
-  Serial.print("RPM 2: ");
-  Serial.println(rpm2);
-  Serial.print("RPM 3: ");
-  Serial.println(rpm3);
-  Serial.print("RPM 4: ");
-  Serial.println(rpm4);
-  */
-  
-  
+  Serial.println(); // new line character to seperate the messages.
 }
 
 void ipin1ISR(){
