@@ -7,7 +7,7 @@
 
 int main(){
 	int i = 0;
-	int cport_nr = 16;
+	int cport_nr = RS232_GetPortnr("ttyACM0");
 	int bdrate = 9600;
 	
 	char mode[] = {'8', 'N', '1', 0};
