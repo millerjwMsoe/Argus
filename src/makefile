@@ -1,10 +1,12 @@
 # motor code makefile
 
-all: motor
+all: motor calibrate
 
 # dependencies generated with g++ -MM *.cpp
 angleFinder.o: angleFinder.cpp angleFinder.h PeriodicTask.h \
  RunnableClass.h irreceiver.h stepper.h
+calibrate.o: calibrate.cpp GPIO.h uln2003.h PeriodicTask.h \
+ RunnableClass.h stepper.h
 coms.o: coms.cpp coms.h PeriodicTask.h RunnableClass.h rs232.h
 GPIO.o: GPIO.cpp GPIO.h util.h
 irreceiver.o: irreceiver.cpp irreceiver.h
@@ -32,6 +34,9 @@ motor: $(OBJS)
 
 coms.o : coms.cpp
 	$(CC) $(COPTIONS) -c coms.cpp rs232.c RunnableClass.cpp PeriodicTask.cpp
+
+calibrate: calibrate.o GPIO.o RunnableClass.o PeriodicTask.o stepper.o uln2003.o util.o
+	$(CC) $(LOPTIONS) -o calibrate.out $^
 
 # implicit rules
 %.o : %.cpp
