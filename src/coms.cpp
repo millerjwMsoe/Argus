@@ -15,7 +15,7 @@
 using namespace std;
 
 Coms::Coms(string threadName) : PeriodicTask (threadName) {
-    m_comport = 16;
+    m_comport = RS232_GetPortnr("ttyACM0"); // TODO: determine this programatically?
     m_baudrate = 9600;
 }
 

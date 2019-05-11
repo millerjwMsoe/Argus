@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
 
   Coms* arduino = new Coms("RS232");
   arduino->setup();
-  arduino->setTaskPeriod(1000000);
+  arduino->setTaskPeriod(1000);
   arduino->start();
 
   AngleFinder* r_angleFinder = new AngleFinder(r_stepper, r_receiver, "RightAngleFinder");
