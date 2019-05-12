@@ -5,6 +5,8 @@ all: motor calibrate
 # dependencies generated with g++ -MM *.cpp
 angleFinder.o: angleFinder.cpp angleFinder.h PeriodicTask.h \
  RunnableClass.h irreceiver.h stepper.h
+binTriangulator.o: binTriangulator.cpp binTriangulator.h PeriodicTask.h \
+ RunnableClass.h angleFinder.h irreceiver.h stepper.h
 calibrate.o: calibrate.cpp GPIO.h uln2003.h PeriodicTask.h \
  RunnableClass.h stepper.h
 coms.o: coms.cpp coms.h PeriodicTask.h RunnableClass.h rs232.h
@@ -24,8 +26,8 @@ util.o: util.cpp util.h
 CC = g++
 COPTIONS = -g --save-temps -O0 -pthread
 LOPTIONS = -g -pthread
-OBJS = angleFinder.o coms.o GPIO.o irreceiver.o main.o PeriodicTask.o \
- RunnableClass.o rs232.o stepper.o tsop38238.o uln2003.o util.o
+OBJS = angleFinder.o binTriangulator.o coms.o GPIO.o irreceiver.o main.o \
+ PeriodicTask.o RunnableClass.o rs232.o stepper.o tsop38238.o uln2003.o util.o
 NAME = motor.out
 
 # explicit rules
