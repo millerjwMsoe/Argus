@@ -9,6 +9,7 @@
 #include "uln2003.h"
 #include "tsop38238.h"
 #include "angleFinder.h"
+#include "binTriangulator.h"
 #include "coms.h"
 
 using namespace std;
@@ -31,6 +32,11 @@ int main(int argc, char* argv[]) {
   l_angleFinder->setTaskPeriod(500);
   r_angleFinder->start();
   l_angleFinder->start();
-  r_angleFinder->waitForShutdown(); // blocks
+
+  BinTriangulator* tri = new BinTriangulator(l_angleFinder, r_angleFinder, "Triangulator");
+  tri->setTaskPeriod(500);
+  tri->start();
+
+  tri->waitForShutdown(); // blocks
 
 }

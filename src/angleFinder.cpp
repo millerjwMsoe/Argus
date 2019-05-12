@@ -16,11 +16,17 @@ AngleFinder::AngleFinder(Stepper* stepper, IRReceiver* receiver, string threadNa
     m_start = 0;
     m_target = m_start + m_searchCount*m_searchAngle;
     m_direction = Stepper::CW;
+    m_lastFound = 0;
+}
+
+double AngleFinder::getAngle() {
+    return m_lastFound;
 }
 
 void AngleFinder::run() {
     if(m_receiver->lightDetected()) { // currently getting signal
         cout << "Bin at: " << m_stepper->getAngle() << endl;
+        m_lastFound = m_stepper->getAngle();
         m_stepper->stopRotation();
         m_seeking = false;
     } else if(!m_seeking) { // just lost signal -> start looking

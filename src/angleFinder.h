@@ -17,6 +17,9 @@ public:
     // overrides PeriodicTask::run(). Runs periodically on its own thread.
     void run();
 
+    // returns the angle at which the bin was last seen
+    double getAngle();
+
 private:
     Stepper::DIRECTION opposite(Stepper::DIRECTION dir);
     Stepper* m_stepper;
@@ -27,6 +30,7 @@ private:
     Stepper::DIRECTION m_direction; // which direction to look for light in
     const int m_searchAngle = 45; // how many degrees to sweep before turning around
     double m_searchCount; // how many search sweeps since light was detected
+    double m_lastFound; // angle at which the light was last found
 
 };
 

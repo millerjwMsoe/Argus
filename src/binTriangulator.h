@@ -11,15 +11,16 @@
 
 class BinTriangulator : public PeriodicTask {
 public:
-    BinTriangulator(AngleFinder* leftAngle, AngleFinder* rightAngle, std::string threadName);
+    BinTriangulator(AngleFinder* leftSensor, AngleFinder* rightSensor, std::string threadName);
 
     // overrides PeriodicTask::run(). Runs periodically on its own thread.
     void run();
 
 private:
-    AngleFinder* m_leftAngle;
-    AngleFinder* m_rightAngle;
+    AngleFinder* m_leftSensor;
+    AngleFinder* m_rightSensor;
 
+    double radFromDeg(double deg);
 };
 
 #endif /* BIN_TRIANGULATOR_H_ */
