@@ -40,6 +40,7 @@ const byte ipin4 = 21;
 
 int ipin1Count = 0, ipin2Count = 0, ipin3Count = 0, ipin4Count = 0;
 int rpm1, rpm2, rpm3, rpm4;
+int distance1, distance2;
 double volume; // units are in something...
 double mass; // units again are something...
 const double sampleIntervalms = 1000;
@@ -47,21 +48,20 @@ const double msToMin = 60000;
 const double numMagnets = 1; // change this one to allow for more  poles to be placed on wheel
 const double countToRPM = msToMin / sampleIntervalms / numMagnets;
 
-StaticJsonDocument<100> doc;
+StaticJsonDocument<200> doc;
 
 void setup() {
   // put your setup code here, to run once:
 
-  
   Wire.begin();
   
   Serial.begin(9600);
 
-  if (distanceSensor.begin() == false)
-  {
-    Serial.println("Sensor online!");
-  }
-   
+  //if (distanceSensor.begin() == false)
+  //{
+  //  Serial.println("Sensor online!");
+  //}
+   /*
   pinMode(ipin1, INPUT_PULLUP);
   pinMode(ipin2, INPUT_PULLUP);
   pinMode(ipin3, INPUT_PULLUP);
@@ -70,7 +70,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(ipin1), ipin1ISR, FALLING);
   attachInterrupt(digitalPinToInterrupt(ipin2), ipin2ISR, FALLING);
   attachInterrupt(digitalPinToInterrupt(ipin3), ipin3ISR, FALLING);
-  attachInterrupt(digitalPinToInterrupt(ipin4), ipin4ISR, FALLING);
+  attachInterrupt(digitalPinToInterrupt(ipin4), ipin4ISR, FALLING);*/
 }
 
 
@@ -79,9 +79,9 @@ void loop() {
   
   delay(sampleIntervalms);
 
-  distanceSensor.startRanging(); //Write configuration bytes to initiate measurement
-  int distance = distanceSensor.getDistance(); //Get the result of the measurement from the sensor
-  distanceSensor.stopRanging();
+  //distanceSensor.startRanging(); //Write configuration bytes to initiate measurement
+  //int distance = distanceSensor.getDistance(); //Get the result of the measurement from the sensor
+  //distanceSensor.stopRanging();
 
   //Serial.print("Distance(mm): ");
   //Serial.println(distance);
@@ -97,17 +97,22 @@ void loop() {
   ipin4Count = 0;
   interrupts();
   
+  volume = -2;
+  mass = -3;
   //int distance = 112;
-  doc["Dist"] = distance; // distance in mm
-  doc["LF RPM"] = rpm1;
-  doc["RF RPM"] = rpm2;
-  doc["RR RPM"] = rpm3;
-  doc["LR RPM"] = rpm4;
+  distance1 = -4; distance2 = -5;
+  doc["DIST1"] = distance1; // distance in mm
+  doc["DIST2"] = distance2; // distance in mm
+  doc["LF_RPM"] = rpm1;
+  doc["RF_RPM"] = rpm2;
+  doc["RR_RPM"] = rpm3;
+  doc["LR_RPM"] = rpm4;
   doc["VOLUME"] = volume;
   doc["MASS"] = mass;
 
   serializeJson(doc, Serial);
   Serial.println(); // new line character to seperate the messages.
+  Serial.flush();
 }
 
 void ipin1ISR(){
