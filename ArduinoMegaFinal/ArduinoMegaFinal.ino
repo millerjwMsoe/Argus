@@ -24,6 +24,7 @@
 #include <vl53l1x_class.h>
 #include <vl53l1_error_codes.h>
 #include <ArduinoJson.h>
+#include <SoftwareSerial.h>
 #include <Wire.h>
 #include "SparkFun_VL53L1X.h"
 
@@ -32,6 +33,7 @@
 #define INTERRUPT_PIN 3
 
 SFEVL53L1X distanceSensor;
+SoftwareSerial mySerial(3,4);
 
 const byte ipin1 = 18;
 const byte ipin2 = 19;
@@ -53,15 +55,16 @@ StaticJsonDocument<200> doc;
 void setup() {
   // put your setup code here, to run once:
 
-  Wire.begin();
-  
-  Serial.begin(9600);
+  Wire.begin(); // I2C line to proximity sensor
+  Serial.begin(9600); // serial port to RPI
+  mySerial.begin(9600); // bluetooth module
 
   //if (distanceSensor.begin() == false)
   //{
   //  Serial.println("Sensor online!");
   //}
-   /*
+
+  // Initialize pins for Hall effect sensors.
   pinMode(ipin1, INPUT_PULLUP);
   pinMode(ipin2, INPUT_PULLUP);
   pinMode(ipin3, INPUT_PULLUP);
@@ -70,22 +73,34 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(ipin1), ipin1ISR, FALLING);
   attachInterrupt(digitalPinToInterrupt(ipin2), ipin2ISR, FALLING);
   attachInterrupt(digitalPinToInterrupt(ipin3), ipin3ISR, FALLING);
-  attachInterrupt(digitalPinToInterrupt(ipin4), ipin4ISR, FALLING);*/
+  attachInterrupt(digitalPinToInterrupt(ipin4), ipin4ISR, FALLING);
 }
 
 
 void loop() {
-  // put your main code here, to run repeatedly:
   
   delay(sampleIntervalms);
+  byte incomingByte;
 
-  //distanceSensor.startRanging(); //Write configuration bytes to initiate measurement
-  //int distance = distanceSensor.getDistance(); //Get the result of the measurement from the sensor
-  //distanceSensor.stopRanging();
+  // if there is no bluetooth data available volume and mass remain the same
+  while(mySerial.available() > 3){ // must be atleast one packet of data in stream
+    incomingByte = mySerial.read();
+    if(incomingByte == 250){    // start byte of message
+      volume = mySerial.read();
+      mass = mySerial.read();
+      mass = mass / 10.0;       // convert back to kg
+    }
+  }
+
+  // get new priximity data in units mm
+  distanceSensor.startRanging(); //Write configuration bytes to initiate measurement
+  distance1 = distanceSensor.getDistance(); //Get the result of the measurement from the sensor
+  distanceSensor.stopRanging();
 
   //Serial.print("Distance(mm): ");
   //Serial.println(distance);
-  
+
+  // disable interrupts and get new rpm data
   noInterrupts();
   rpm1 = ipin1Count * countToRPM;
   rpm2 = ipin2Count * countToRPM;
@@ -97,10 +112,9 @@ void loop() {
   ipin4Count = 0;
   interrupts();
   
-  volume = -2;
-  mass = -3;
   //int distance = 112;
-  distance1 = -4; distance2 = -5;
+  distance1 = -4; 
+  distance2 = 0;
   doc["DIST1"] = distance1; // distance in mm
   doc["DIST2"] = distance2; // distance in mm
   doc["LF_RPM"] = rpm1;
