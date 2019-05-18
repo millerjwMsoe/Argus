@@ -114,5 +114,5 @@ void loop() {
   
   Serial.write(250); //incoming first byte
   Serial.write(fill); // value between 0 and 100. percentage fill of bucket 
-  Serial.write(ma); // value between 0 and 100. units are hectograms
+  Serial.write(ma); // value between 0 and 100. units are hectograms  
 }
