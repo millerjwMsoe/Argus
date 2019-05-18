@@ -94,7 +94,7 @@ void loop() {
     }
   }
 
-  // get new priximity data in units mm
+    // get new priximity data in units mm
   distanceSensor.startRanging(); //Write configuration bytes to initiate measurement
   distance1 = distanceSensor.getDistance(); //Get the result of the measurement from the sensor
   distanceSensor.stopRanging();
@@ -115,7 +115,7 @@ void loop() {
   interrupts();
   
   //int distance = 112;
-  distance1 = -4; 
+  //distance1 = -4; 
   distance2 = 0;
   doc["DIST1"] = distance1; // distance in mm
   doc["DIST2"] = distance2; // distance in mm
