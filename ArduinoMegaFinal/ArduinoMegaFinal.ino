@@ -33,7 +33,7 @@
 #define INTERRUPT_PIN 3
 
 SFEVL53L1X distanceSensor;
-SoftwareSerial mySerial(3,4);
+SoftwareSerial mySerial(10,11);
 
 const byte ipin1 = 18;
 const byte ipin2 = 19;
@@ -85,10 +85,12 @@ void loop() {
   // if there is no bluetooth data available volume and mass remain the same
   while(mySerial.available() > 3){ // must be atleast one packet of data in stream
     incomingByte = mySerial.read();
-    if(incomingByte == 250){    // start byte of message
-      volume = mySerial.read();
-      mass = mySerial.read();
+    if(((int)incomingByte) == 250){    // start byte of message
+      volume = (int)mySerial.read();
+      mass = (int)mySerial.read();
       mass = mass / 10.0;       // convert back to kg
+      //Serial.println(volume);
+      //Serial.println(mass);
     }
   }
 
