@@ -6,8 +6,8 @@
  * Wheel to sensor map is as follows
  * Left Front (LF) = sensor 1 = pin 18
  * Right Front (RF) = sensor 2 = pin 19
- * Right Rear (RR) = sensor 3 = pin 20
- * Left Rear (LR) = sensor 4 = pin 21
+ * Right Rear (RR) = sensor 3 = pin 6
+ * Left Rear (LR) = sensor 4 = pin 7
  * 
  * Proximity sensor is connected to I2C lines and measures in mm
  * 
@@ -37,8 +37,8 @@ SoftwareSerial mySerial(10,11);
 
 const byte ipin1 = 18;
 const byte ipin2 = 19;
-const byte ipin3 = 20;
-const byte ipin4 = 21;
+const byte ipin3 = 6;
+const byte ipin4 = 7;
 
 int ipin1Count = 0, ipin2Count = 0, ipin3Count = 0, ipin4Count = 0;
 int rpm1, rpm2, rpm3, rpm4;
