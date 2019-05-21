@@ -9,7 +9,7 @@ binTriangulator.o: binTriangulator.cpp binTriangulator.h PeriodicTask.h \
  RunnableClass.h angleFinder.h irreceiver.h stepper.h
 calibrate.o: calibrate.cpp GPIO.h uln2003.h PeriodicTask.h \
  RunnableClass.h stepper.h
-coms.o: coms.cpp coms.h PeriodicTask.h RunnableClass.h rs232.h
+coms.o: coms.cpp coms.h PeriodicTask.h RunnableClass.h rs232.h json.hpp
 GPIO.o: GPIO.cpp GPIO.h util.h
 irreceiver.o: irreceiver.cpp irreceiver.h
 main.o: main.cpp GPIO.h uln2003.h PeriodicTask.h RunnableClass.h \
@@ -24,7 +24,7 @@ util.o: util.cpp util.h
 
 # variables
 CC = g++
-COPTIONS = -g --save-temps -O0 -pthread
+COPTIONS = -g --save-temps -O0 -pthread -Wno-psabi
 LOPTIONS = -g -pthread
 OBJS = angleFinder.o binTriangulator.o coms.o GPIO.o irreceiver.o main.o \
  PeriodicTask.o RunnableClass.o rs232.o stepper.o tsop38238.o uln2003.o util.o
