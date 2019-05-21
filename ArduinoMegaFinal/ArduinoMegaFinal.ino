@@ -59,10 +59,10 @@ void setup() {
   Serial.begin(9600); // serial port to RPI
   mySerial.begin(9600); // bluetooth module
 
-  //if (distanceSensor.begin() == false)
-  //{
-  //  Serial.println("Sensor online!");
-  //}
+  if (distanceSensor.begin() == false)
+  {
+    //Serial.println("Sensor online!");
+  }
 
   // Initialize pins for Hall effect sensors.
   pinMode(ipin1, INPUT_PULLUP);
