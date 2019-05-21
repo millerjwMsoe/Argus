@@ -44,6 +44,10 @@ calibrate: calibrate.o GPIO.o RunnableClass.o PeriodicTask.o stepper.o uln2003.o
 %.o : %.cpp
 	$(CC) $(COPTIONS) -c $<
 
+# get Arduino port nr.
+port:
+	ls -lA /dev/serial/by-id
+
 # clean
 clean:
 	rm -rf $(NAME) *.o *.ii *.s

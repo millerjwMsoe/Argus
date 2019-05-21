@@ -4,6 +4,7 @@
  */
 
 #include <iostream>
+#include <cmath>
 #include "angleFinder.h"
 
 using namespace std;
@@ -44,6 +45,7 @@ void AngleFinder::run() {
         if(m_direction == Stepper::CW) {
             if(m_stepper->getAngle() > m_target) {
                 m_searchCount++;
+                m_searchCount = fmod(m_searchCount, 8);
                 m_direction = opposite(m_direction);
                 m_target = m_start - m_searchCount*m_searchAngle;
                 m_stepper->startRotation(m_direction);
@@ -51,6 +53,7 @@ void AngleFinder::run() {
         } else { // m_direction == Stepper::CCW
             if(m_stepper->getAngle() < m_target) {
                 m_searchCount++;
+                m_searchCount = fmod(m_searchCount, 8);
                 m_direction = opposite(m_direction);
                 m_target = m_start + m_searchCount*m_searchAngle;
                 m_stepper->startRotation(m_direction);
