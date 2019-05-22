@@ -56,6 +56,10 @@ calibrate: calibrate.o GPIO.o RunnableClass.o PeriodicTask.o stepper.o uln2003.o
 port:
 	ls -lA /dev/serial/by-id
 
+# enable camera for openCV
+camera:
+	sudo modprobe bcm2835-v4l2
+
 # clean
 clean:
 	rm -rf $(NAME) *.o *.ii *.s
