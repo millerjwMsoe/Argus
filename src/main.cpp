@@ -13,6 +13,7 @@
 #include "coms.h"
 #include "Camera.h"
 #include "ImageTransmitter.h"
+#include "ImageCapturer.h"
 
 using namespace std;
 using namespace exploringRPi;

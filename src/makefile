@@ -14,13 +14,15 @@ Camera.o: Camera.cpp Camera.h RunnableClass.h
 GPIO.o: GPIO.cpp GPIO.h util.h
 irreceiver.o: irreceiver.cpp irreceiver.h
 main.o: main.cpp GPIO.h uln2003.h PeriodicTask.h RunnableClass.h \
- stepper.h tsop38238.h irreceiver.h angleFinder.h binTriangulator.h
+ stepper.h tsop38238.h irreceiver.h angleFinder.h binTriangulator.h \
+ Camera.h ImageTransmitter.h ImageCapturer.h
 ImageCapturer.o: ImageCapturer.cpp ImageCapturer.h Camera.h \
  PeriodicTask.h RunnableClass.h ImageTransmitter.h
 ImageTransmitter.o: ImageTransmitter.cpp ImageTransmitter.h
 PeriodicTask.o: PeriodicTask.cpp PeriodicTask.h RunnableClass.h
 RunnableClass.o: RunnableClass.cpp RunnableClass.h
 stepper.o: stepper.cpp stepper.h
+time_util.o: time_util.cpp time_util.h
 tsop38238.o: tsop38238.cpp tsop38238.h GPIO.h irreceiver.h
 uln2003.o: uln2003.cpp uln2003.h GPIO.h PeriodicTask.h RunnableClass.h \
  stepper.h
@@ -31,7 +33,8 @@ CC = g++
 COPTIONS = -g --save-temps -O0 -pthread -Wno-psabi
 LOPTIONS = -g -pthread
 OBJS = angleFinder.o binTriangulator.o coms.o GPIO.o irreceiver.o main.o \
- PeriodicTask.o RunnableClass.o rs232.o stepper.o tsop38238.o uln2003.o util.o
+ PeriodicTask.o RunnableClass.o rs232.o stepper.o tsop38238.o uln2003.o util.o \
+ Camera.o ImageTransmitter.o ImageCapturer.o time_util.o
 NAME = motor.out
 
 # explicit rules
