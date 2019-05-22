@@ -10,10 +10,14 @@ binTriangulator.o: binTriangulator.cpp binTriangulator.h PeriodicTask.h \
 calibrate.o: calibrate.cpp GPIO.h uln2003.h PeriodicTask.h \
  RunnableClass.h stepper.h
 coms.o: coms.cpp coms.h PeriodicTask.h RunnableClass.h rs232.h json.hpp
+Camera.o: Camera.cpp Camera.h RunnableClass.h
 GPIO.o: GPIO.cpp GPIO.h util.h
 irreceiver.o: irreceiver.cpp irreceiver.h
 main.o: main.cpp GPIO.h uln2003.h PeriodicTask.h RunnableClass.h \
  stepper.h tsop38238.h irreceiver.h angleFinder.h binTriangulator.h
+ImageCapturer.o: ImageCapturer.cpp ImageCapturer.h Camera.h \
+ PeriodicTask.h RunnableClass.h ImageTransmitter.h
+ImageTransmitter.o: ImageTransmitter.cpp ImageTransmitter.h
 PeriodicTask.o: PeriodicTask.cpp PeriodicTask.h RunnableClass.h
 RunnableClass.o: RunnableClass.cpp RunnableClass.h
 stepper.o: stepper.cpp stepper.h

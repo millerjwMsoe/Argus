@@ -11,6 +11,8 @@
 #include "angleFinder.h"
 #include "binTriangulator.h"
 #include "coms.h"
+#include "Camera.h"
+#include "ImageTransmitter.h"
 
 using namespace std;
 using namespace exploringRPi;
@@ -36,6 +38,15 @@ int main(int argc, char* argv[]) {
   BinTriangulator* tri = new BinTriangulator(l_angleFinder, r_angleFinder, "Triangulator");
   tri->setTaskPeriod(500);
   tri->start();
+
+  Camera* myCamera = new Camera("Camera", 640, 360);
+  myCamera->start();
+
+  cout << "Usage: ./motor.out ip port" << endl << "e.g. ./motor.out 192.168.1.1 5555" << endl;
+  ImageTransmitter* it = new ImageTransmitter(argv[1], atoi(argv[2]));
+	ImageCapturer *is = new ImageCapturer("Image Streamer", myCamera, it, 320, 180);
+	is->setTaskPeriod(100);
+	is->start();
 
   tri->waitForShutdown(); // blocks
 
