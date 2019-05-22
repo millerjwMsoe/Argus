@@ -4,8 +4,8 @@
  * to the desired pin. the input pints for hall effect sensors are 18-21.
  * 
  * Wheel to sensor map is as follows
- * Left Front (LF) = sensor 1 = pin 18
- * Right Front (RF) = sensor 2 = pin 19
+ * Left Front (LF) = sensor 1 = pin 19
+ * Right Front (RF) = sensor 2 = pin 18
  * Right Rear (RR) = sensor 3 = pin 2
  * Left Rear (LR) = sensor 4 = pin 3
  * 
@@ -35,8 +35,8 @@
 SFEVL53L1X distanceSensor;
 SoftwareSerial mySerial(10,11);
 
-const byte ipin1 = 18;
-const byte ipin2 = 19;
+const byte ipin1 = 19;
+const byte ipin2 = 18;
 const byte ipin3 = 2;
 const byte ipin4 = 3;
 
