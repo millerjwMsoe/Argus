@@ -47,7 +47,7 @@ double volume; // units are in something...
 double mass; // units again are something...
 const double sampleIntervalms = 1000;
 const double msToMin = 60000;
-const double numMagnets = 1; // change this one to allow for more  poles to be placed on wheel
+const double numMagnets = 8; // change this one to allow for more  poles to be placed on wheel
 const double countToRPM = msToMin / sampleIntervalms / numMagnets;
 
 StaticJsonDocument<200> doc;
@@ -55,6 +55,8 @@ StaticJsonDocument<200> doc;
 void setup() {
   // put your setup code here, to run once:
 
+  volume = 0;
+  mass = 0;
   Wire.begin(); // I2C line to proximity sensor
   Serial.begin(9600); // serial port to RPI
   mySerial.begin(9600); // bluetooth module
@@ -103,7 +105,7 @@ void loop() {
   //Serial.println(distance);
 
   // disable interrupts and get new rpm data
-  noInterrupts();
+  //noInterrupts();
   rpm1 = ipin1Count * countToRPM;
   rpm2 = ipin2Count * countToRPM;
   rpm3 = ipin3Count * countToRPM;
@@ -112,7 +114,7 @@ void loop() {
   ipin2Count = 0;
   ipin3Count = 0;
   ipin4Count = 0;
-  interrupts();
+  //interrupts();
   
   //int distance = 112;
   //distance1 = -4; 
